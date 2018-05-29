@@ -10,6 +10,8 @@ import android.widget.Toast
 import android.graphics.Color
 import android.R.attr.button
 import android.support.design.widget.TabLayout.GRAVITY_CENTER
+import java.util.Random
+
 
 // TODO : changer le LinearLayout en un truc qui permet de wrap quand y'a trop de lettres
 // TODO : shuffle les button avant de les ajouter a la vue
@@ -29,9 +31,31 @@ class GameActivity : AppCompatActivity()  {
         val user_word_view = findViewById(R.id.textView) as TextView
         val underscore_view = findViewById(R.id.underscore) as TextView
 
-        val word_to_find = "CELIABLABLASALUT"
+
+        val word_to_find = "cow"
         var word_to_find_formatted = ""
         val word_to_find_length = (word_to_find.length * 2 ) - 1
+
+        val arrayy = word_to_find.toCharArray()
+        print("Hello")
+
+        fun <T> Array<T>.shuffle(): Array<T> {
+            val rng = Random()
+
+            for (index in 0..this.size - 1) {
+                val randomIndex = rng.nextInt(this.size)
+
+                // Swap with the random position
+                val temp = this[index]
+                this[index] = this[randomIndex]
+                this[randomIndex] = temp
+            }
+
+            return this
+        }
+
+        // val wooord = arrayy.shuffle()
+
 
 
         var user_word = ""
