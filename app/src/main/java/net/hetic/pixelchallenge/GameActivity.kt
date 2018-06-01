@@ -5,18 +5,19 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.Toast
 import android.graphics.Color
 import android.R.attr.button
 import android.support.design.widget.TabLayout.GRAVITY_CENTER
 import java.util.Random
+import java.util.Collections
+import java.util.Arrays
+import java.util.Arrays.asList
+import com.google.android.flexbox.FlexboxLayout
+
 
 
 // TODO : changer le LinearLayout en un truc qui permet de wrap quand y'a trop de lettres
-// TODO : shuffle les button avant de les ajouter a la vue
-// TODO : ajouter des lettres en plus pour toujours en avoir un certain nombre
-// (à définir mais genre 12?)
 
 class GameActivity : AppCompatActivity()  {
 
@@ -24,45 +25,42 @@ class GameActivity : AppCompatActivity()  {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
-        val buttonContainer = findViewById(R.id.buttonContainer) as LinearLayout
+        val buttonContainer = findViewById(R.id.buttonContainer) as FlexboxLayout
 
         // val letter_btn = findViewById(R.id.letterBtn) as Button
         // val letter_btn_2 = findViewById(R.id.letterBtn2) as Button
         val user_word_view = findViewById(R.id.textView) as TextView
         val underscore_view = findViewById(R.id.underscore) as TextView
 
-
-        val word_to_find = "cow"
+        val nb_letters_to_show = 12
+        val word_to_find = "maman"
         var word_to_find_formatted = ""
-        val word_to_find_length = (word_to_find.length * 2 ) - 1
+        val word_to_find_length = word_to_find.length
+        var letters_to_show = word_to_find
 
-        val arrayy = word_to_find.toCharArray()
-        print("Hello")
-
-        fun <T> Array<T>.shuffle(): Array<T> {
-            val rng = Random()
-
-            for (index in 0..this.size - 1) {
-                val randomIndex = rng.nextInt(this.size)
-
-                // Swap with the random position
-                val temp = this[index]
-                this[index] = this[randomIndex]
-                this[randomIndex] = temp
+        if (word_to_find.length < nb_letters_to_show) {
+            var nb_letters_to_add = nb_letters_to_show - word_to_find.length
+            var letters = generateRandomChars(nb_letters_to_add)
+            for (letter in letters) {
+                letters_to_show = "$letters_to_show$letter"
             }
 
-            return this
         }
 
-        // val wooord = arrayy.shuffle()
-
+        letters_to_show = shuffle(letters_to_show)
+        // Toast.makeText(this@GameActivity, letters_to_show, Toast.LENGTH_LONG).show()
 
 
         var user_word = ""
         var underscores = ""
+
         for (letter in word_to_find) {
             word_to_find_formatted += "$letter "
             underscores += "_ "
+            underscore_view.text = underscores
+        }
+
+        for (letter in letters_to_show) {
 
             val button = Button(this)
             val scale = resources.displayMetrics.density
@@ -74,13 +72,10 @@ class GameActivity : AppCompatActivity()  {
             button.setBackgroundResource(R.drawable.cta_bg)
             button.setTextColor(Color.WHITE)
             button.setGravity(GRAVITY_CENTER)
-            button.layoutParams = LinearLayout.LayoutParams(dpWidthInPx, dpHeightInPx)
-            val param = button.layoutParams as LinearLayout.LayoutParams
+            button.layoutParams = FlexboxLayout.LayoutParams(dpWidthInPx, dpHeightInPx)
+            val param = button.layoutParams as FlexboxLayout.LayoutParams
             param.setMargins(dpMarginInPx,dpMarginInPx,dpMarginInPx,dpMarginInPx);
             button.layoutParams = param
-
-            // TODO : ajouter un eventListener sur le click de tous les boutons,
-            // qui récupère la valeur cliquée et check si le mot est terminé ou pas
 
             button.setOnClickListener {
                 val letter_btn_string = button.text.toString()
@@ -104,9 +99,32 @@ class GameActivity : AppCompatActivity()  {
 
 
         }
-        underscore_view.text = underscores
 
 
     }
 
+    fun generateRandomChars(length: Int): String {
+        var candidateChars = "abcdefghijklmnopqrstuvwxyz"
+        val sb = StringBuilder()
+        val random = Random()
+        for (i in 0 until length) {
+            sb.append(candidateChars[random.nextInt(candidateChars
+                    .length)])
+        }
+
+        return sb.toString()
+    }
+
+    fun shuffle(input: String): String {
+        val characters = ArrayList<Char>()
+        for (c in input.toCharArray()) {
+            characters.add(c)
+        }
+        val output = StringBuilder(input.length)
+        while (characters.size != 0) {
+            val randPicker = (Math.random() * characters.size).toInt()
+            output.append(characters.removeAt(randPicker))
+        }
+        return output.toString()
+    }
 }
