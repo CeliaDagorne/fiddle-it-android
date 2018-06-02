@@ -14,7 +14,10 @@ import java.util.Collections
 import java.util.Arrays
 import java.util.Arrays.asList
 import com.google.android.flexbox.FlexboxLayout
+import android.util.Log
 
+import android.widget.ArrayAdapter
+import android.widget.ListView
 
 
 // TODO : changer le LinearLayout en un truc qui permet de wrap quand y'a trop de lettres
@@ -31,6 +34,26 @@ class GameActivity : AppCompatActivity()  {
         // val letter_btn_2 = findViewById(R.id.letterBtn2) as Button
         val user_word_view = findViewById(R.id.textView) as TextView
         val underscore_view = findViewById(R.id.underscore) as TextView
+
+
+        var listitems: ListView?=null
+
+        listitems = findViewById(R.id.listItems)
+
+
+        // WORDS DB
+
+        var level = R.array.level_2
+        val wordArray = resources.getStringArray(level)
+
+
+
+        for (word in wordArray) {
+            Log.d("word: ", word)
+
+        }
+
+        //
 
         val nb_letters_to_show = 12
         val word_to_find = "maman"
@@ -86,11 +109,11 @@ class GameActivity : AppCompatActivity()  {
 
                     if(user_word == word_to_find_formatted) {
                         Toast.makeText(this@GameActivity, "found $word_to_find", Toast.LENGTH_SHORT).show()
-                    }else if (user_word.length == word_to_find_formatted.length) {
+                    } else if (user_word.length == word_to_find_formatted.length) {
                         Toast.makeText(this@GameActivity, "nope !", Toast.LENGTH_SHORT).show()
                     }
 
-                }else{
+                } else {
                     Toast.makeText(this@GameActivity, "too long", Toast.LENGTH_SHORT).show()
                 }
             }

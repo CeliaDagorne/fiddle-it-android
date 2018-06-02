@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="level_1">
+        <item>chat</item>
+        <item>poisson</item>
+        <item>klarine</item>
+        <item>biere</item>
+    </string-array>
+    <string-array name="level_2">
+        <item>aspirateur</item>
+        <item>canap</item>
+        <item>velo</item>
+        <item>lunettes</item>
+    </string-array>
+</resources>
