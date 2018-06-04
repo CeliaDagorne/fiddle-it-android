@@ -1,15 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="level_1">
-        <item>chat</item>
+    <string-array name="words">
         <item>poisson</item>
-        <item>klarine</item>
-        <item>biere</item>
-    </string-array>
-    <string-array name="level_2">
-        <item>aspirateur</item>
-        <item>canap</item>
+        <item>piece</item>
+        <item>rose</item>
         <item>velo</item>
+        <item>melon</item>
+        <item>nuage</item>
+        <item>aspirateur</item>
+        <item>micro</item>
+        <item>montre</item>
+        <item>cheveux</item>
+        <item>vinyle</item>
         <item>lunettes</item>
+        <item>biere</item>
+        <item>piano</item>
+        <item>telecommande</item>
+        <item>casquette</item>
+        <item>guitare</item>
+        <item>scotch</item>
+        <item>mangue</item>
+        <item>jean</item>
+        <item>halteres</item>
+        <item>ampoule</item>
+        <item>skate</item>
+        <item>betonniere</item>
+        <item>beyonce</item>
+        <item>enceinte</item>
+        <item>billet</item>
+        <item>clavier</item>
+        <item>poubelle</item>
+        <item>dents</item>
     </string-array>
 </resources>

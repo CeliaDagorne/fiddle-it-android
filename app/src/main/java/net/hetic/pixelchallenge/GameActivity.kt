@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.ImageView
 import android.view.View
 import android.widget.Toast
 import android.graphics.Color
@@ -18,6 +19,7 @@ import android.util.Log
 
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import kotlin.math.log
 
 
 // TODO : changer le LinearLayout en un truc qui permet de wrap quand y'a trop de lettres
@@ -25,40 +27,39 @@ import android.widget.ListView
 class GameActivity : AppCompatActivity()  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
         val buttonContainer = findViewById(R.id.buttonContainer) as FlexboxLayout
+        val img = findViewById(R.id.imageView2) as ImageView
 
-        // val letter_btn = findViewById(R.id.letterBtn) as Button
-        // val letter_btn_2 = findViewById(R.id.letterBtn2) as Button
+
         val user_word_view = findViewById(R.id.textView) as TextView
         val underscore_view = findViewById(R.id.underscore) as TextView
 
 
-        var listitems: ListView?=null
-
-        listitems = findViewById(R.id.listItems)
-
-
         // WORDS DB
 
-        var level = R.array.level_2
-        val wordArray = resources.getStringArray(level)
+        val wordArray = resources.getStringArray(R.array.words)
+        var level = 0
 
+        // IMG DB
+        var draw = "R.drawable."
+        var currentWord = "piece"
+        var setImg = "$draw$currentWord"
+        var foo = setImg.toInt()
 
+        Log.d("img", setImg)
 
-        for (word in wordArray) {
-            Log.d("word: ", word)
+        // java.lang.NumberFormatException: For input string: "R.drawable.piece"
+        // img.setImageResource(foo)
 
-        }
-
-        //
 
         val nb_letters_to_show = 12
-        val word_to_find = "maman"
+        var word_to_find = wordArray[level]
         var word_to_find_formatted = ""
-        val word_to_find_length = word_to_find.length
+        var word_to_find_length = word_to_find.length
         var letters_to_show = word_to_find
 
         if (word_to_find.length < nb_letters_to_show) {
@@ -109,6 +110,11 @@ class GameActivity : AppCompatActivity()  {
 
                     if(user_word == word_to_find_formatted) {
                         Toast.makeText(this@GameActivity, "found $word_to_find", Toast.LENGTH_SHORT).show()
+                        user_word = ""
+                        user_word_view.text = user_word
+                        level +=  1
+
+
                     } else if (user_word.length == word_to_find_formatted.length) {
                         Toast.makeText(this@GameActivity, "nope !", Toast.LENGTH_SHORT).show()
                     }
@@ -120,9 +126,7 @@ class GameActivity : AppCompatActivity()  {
 
             buttonContainer.addView(button)
 
-
         }
-
 
     }
 
