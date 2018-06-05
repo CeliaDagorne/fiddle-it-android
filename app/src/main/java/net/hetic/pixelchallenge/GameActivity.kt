@@ -26,7 +26,7 @@ import android.widget.LinearLayout
 
 
 // TODO : stocker le level auquel l'utilisateur est rendu
-// TODO : incrémenter le nombre d'essai de chaque level et l'afficher
+// TODO : incrémenter le nombre d'essai de chaque level et l'afficher dans la vue
 // TODO : faire le menu
 
 class GameActivity : AppCompatActivity()  {
@@ -47,7 +47,6 @@ class GameActivity : AppCompatActivity()  {
     }
 
     fun toLevel(newLevel: Int) {
-        // TODO : réussir à récupérer la variable level
         val ctx = applicationContext
 
         val buttonContainer = findViewById(R.id.buttonContainer) as FlexboxLayout
