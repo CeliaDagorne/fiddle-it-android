@@ -24,10 +24,12 @@ import android.widget.LinearLayout
 
 
 
-
-// TODO : stocker le level auquel l'utilisateur est rendu
+// TODO : IMPORTANT : faire le design du menu
+// TODO : IMPORTANT stocker le level auquel l'utilisateur est rendu
+// TODO : afficher l'image en grand quand on gagne // mettre autre chose qu'un toast quand on perd?
 // TODO : incrémenter le nombre d'essai de chaque level et l'afficher dans la vue
-// TODO : faire le menu
+// TODO : faire le petit écran "informations"
+
 
 class GameActivity : AppCompatActivity()  {
 
