@@ -41,7 +41,6 @@ class GameActivity : AppCompatActivity()  {
     }
 
     fun foundWord(currentLevel: Int){
-        Toast.makeText(this@GameActivity, "found !", Toast.LENGTH_SHORT).show()
         //user_word = ""
         //user_word_view.text = user_word
         toLevel(currentLevel + 1)
@@ -120,11 +119,13 @@ class GameActivity : AppCompatActivity()  {
                     user_word_view.text = user_word
 
                     if(user_word == word_to_find_formatted) {
+                        Toast.makeText(this@GameActivity, "Bravo, t'as trouvé !", Toast.LENGTH_SHORT).show()
                         foundWord(level)
 
 
                     } else if (user_word.length == word_to_find_formatted.length) {
-                        Toast.makeText(this@GameActivity, "nope !", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@GameActivity, "Nope, try again !", Toast.LENGTH_SHORT).show()
+                        toLevel(level)
                     }
 
                 } else {
