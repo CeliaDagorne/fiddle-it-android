@@ -20,9 +20,14 @@ import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import kotlin.math.log
+import android.widget.LinearLayout
 
 
-// TODO : changer le LinearLayout en un truc qui permet de wrap quand y'a trop de lettres
+
+
+// TODO : stocker le level auquel l'utilisateur est rendu
+// TODO : incrémenter le nombre d'essai de chaque level et l'afficher
+// TODO : faire le menu
 
 class GameActivity : AppCompatActivity()  {
 
@@ -31,30 +36,29 @@ class GameActivity : AppCompatActivity()  {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
+        toLevel(0)
+
+    }
+
+    fun foundWord(currentLevel: Int){
+        Toast.makeText(this@GameActivity, "found !", Toast.LENGTH_SHORT).show()
+        //user_word = ""
+        //user_word_view.text = user_word
+        toLevel(currentLevel + 1)
+    }
+
+    fun toLevel(newLevel: Int) {
+        // TODO : réussir à récupérer la variable level
+        val ctx = applicationContext
+
         val buttonContainer = findViewById(R.id.buttonContainer) as FlexboxLayout
         val img = findViewById(R.id.imageView2) as ImageView
-
-
         val user_word_view = findViewById(R.id.textView) as TextView
         val underscore_view = findViewById(R.id.underscore) as TextView
 
-
-        // WORDS DB
-
+        // get words.xml array
         val wordArray = resources.getStringArray(R.array.words)
-        var level = 0
-
-        // IMG DB
-        var draw = "R.drawable."
-        var currentWord = "piece"
-        var setImg = "$draw$currentWord"
-        var foo = setImg.toInt()
-
-        Log.d("img", setImg)
-
-        // java.lang.NumberFormatException: For input string: "R.drawable.piece"
-        // img.setImageResource(foo)
-
+        var level = newLevel
 
         val nb_letters_to_show = 12
         var word_to_find = wordArray[level]
@@ -62,13 +66,15 @@ class GameActivity : AppCompatActivity()  {
         var word_to_find_length = word_to_find.length
         var letters_to_show = word_to_find
 
+        var id = ctx.getResources().getIdentifier(word_to_find, "drawable", ctx.getApplicationInfo().packageName);
+        img.setImageResource(id);
+
         if (word_to_find.length < nb_letters_to_show) {
             var nb_letters_to_add = nb_letters_to_show - word_to_find.length
             var letters = generateRandomChars(nb_letters_to_add)
             for (letter in letters) {
                 letters_to_show = "$letters_to_show$letter"
             }
-
         }
 
         letters_to_show = shuffle(letters_to_show)
@@ -77,6 +83,11 @@ class GameActivity : AppCompatActivity()  {
 
         var user_word = ""
         var underscores = ""
+        // empty input
+        user_word_view.text = user_word
+        // empty button container
+        if ((buttonContainer).childCount > 0)
+            (buttonContainer).removeAllViews()
 
         for (letter in word_to_find) {
             word_to_find_formatted += "$letter "
@@ -109,10 +120,7 @@ class GameActivity : AppCompatActivity()  {
                     user_word_view.text = user_word
 
                     if(user_word == word_to_find_formatted) {
-                        Toast.makeText(this@GameActivity, "found $word_to_find", Toast.LENGTH_SHORT).show()
-                        user_word = ""
-                        user_word_view.text = user_word
-                        level +=  1
+                        foundWord(level)
 
 
                     } else if (user_word.length == word_to_find_formatted.length) {
@@ -127,8 +135,8 @@ class GameActivity : AppCompatActivity()  {
             buttonContainer.addView(button)
 
         }
-
     }
+
 
     fun generateRandomChars(length: Int): String {
         var candidateChars = "abcdefghijklmnopqrstuvwxyz"
