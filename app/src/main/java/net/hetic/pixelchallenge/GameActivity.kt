@@ -25,9 +25,7 @@ import android.widget.LinearLayout
 
 
 // TODO : IMPORTANT : faire le design du menu
-// TODO : IMPORTANT stocker le level auquel l'utilisateur est rendu
-// TODO : afficher l'image en grand quand on gagne // mettre autre chose qu'un toast quand on perd?
-// TODO : incrémenter le nombre d'essai de chaque level et l'afficher dans la vue
+// TODO : IMPORTANT stocker le level auquel l'utilisateur est rendu dans l'app
 // TODO : faire le petit écran "informations"
 
 
