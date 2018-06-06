@@ -52,6 +52,7 @@ class GameActivity : AppCompatActivity()  {
         val ctx = applicationContext
         val buttonContainer = findViewById(R.id.buttonContainer) as FlexboxLayout
         val img = findViewById(R.id.imageView2) as ImageView
+        val level_view = findViewById(R.id.levelNumber) as TextView
         val user_word_view = findViewById(R.id.textView) as TextView
         val underscore_view = findViewById(R.id.underscore) as TextView
 
@@ -70,6 +71,7 @@ class GameActivity : AppCompatActivity()  {
         var underscores = ""
         user_word_view.text = user_word
         underscore_view.text = underscores
+        level_view.text = (newLevel+1).toString()
         if ((buttonContainer).childCount > 0)
             (buttonContainer).removeAllViews()
 
