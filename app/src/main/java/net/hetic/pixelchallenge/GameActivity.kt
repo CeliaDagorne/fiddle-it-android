@@ -93,6 +93,7 @@ class GameActivity : AppCompatActivity()  {
 
 
         // on ajoute le nombre d'underscore du mot à trouver dans la vue
+        var space = " "
         for (letter in word_to_find) {
             word_to_find_formatted += "$letter "
             underscores += "_ "
@@ -121,7 +122,8 @@ class GameActivity : AppCompatActivity()  {
 
             button.setOnClickListener {
                 val letter_btn_string = button.text.toString()
-                button.setAlpha(.5f);
+                button.setAlpha(.5f)
+                button.setEnabled(false)
                 if (user_word.length < word_to_find_formatted.length) {
                     user_word += letter_btn_string+" "
                     // Toast.makeText(this@GameActivity, user_word_txt, Toast.LENGTH_SHORT).show()
