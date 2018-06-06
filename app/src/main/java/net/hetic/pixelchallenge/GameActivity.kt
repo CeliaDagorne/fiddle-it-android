@@ -50,7 +50,6 @@ class GameActivity : AppCompatActivity()  {
 
     fun toLevel(newLevel: Int) {
         val ctx = applicationContext
-
         val buttonContainer = findViewById(R.id.buttonContainer) as FlexboxLayout
         val img = findViewById(R.id.imageView2) as ImageView
         val user_word_view = findViewById(R.id.textView) as TextView
@@ -63,12 +62,24 @@ class GameActivity : AppCompatActivity()  {
         val nb_letters_to_show = 12
         var word_to_find = wordArray[level]
         var word_to_find_formatted = ""
-        var word_to_find_length = word_to_find.length
+        //var word_to_find_length = word_to_find.length
         var letters_to_show = word_to_find
 
+        // on vide les inputs, boutons, et underscores
+        var user_word = ""
+        var underscores = ""
+        user_word_view.text = user_word
+        underscore_view.text = underscores
+        if ((buttonContainer).childCount > 0)
+            (buttonContainer).removeAllViews()
+
+        // afficher l'image correspondant au niveau
         var id = ctx.getResources().getIdentifier(word_to_find, "drawable", ctx.getApplicationInfo().packageName);
         img.setImageResource(id);
 
+        // si la longueur du mot est inférieur au nombre de boutons à afficher,
+        // on ajoute autant de lettres aléatoires qu'il faut pour avoir le nombre de lettres à
+        // afficher
         if (word_to_find.length < nb_letters_to_show) {
             var nb_letters_to_add = nb_letters_to_show - word_to_find.length
             var letters = generateRandomChars(nb_letters_to_add)
@@ -76,27 +87,21 @@ class GameActivity : AppCompatActivity()  {
                 letters_to_show = "$letters_to_show$letter"
             }
         }
-
+        // on mélange les lettres
         letters_to_show = shuffle(letters_to_show)
-        // Toast.makeText(this@GameActivity, letters_to_show, Toast.LENGTH_LONG).show()
 
 
-        var user_word = ""
-        var underscores = ""
-        // empty input
-        user_word_view.text = user_word
-        // empty button container
-        if ((buttonContainer).childCount > 0)
-            (buttonContainer).removeAllViews()
-
+        // on ajoute le nombre d'underscore du mot à trouver dans la vue
         for (letter in word_to_find) {
             word_to_find_formatted += "$letter "
             underscores += "_ "
             underscore_view.text = underscores
         }
 
+        // pour chaque lettre, on créé le bouton
+        // on créer le listener qui va gérer le click
+        // puis on l'ajoute dans la vue
         for (letter in letters_to_show) {
-
             val button = Button(this)
             val scale = resources.displayMetrics.density
             val dpWidthInPx = (40 * scale).toInt()
@@ -114,6 +119,7 @@ class GameActivity : AppCompatActivity()  {
 
             button.setOnClickListener {
                 val letter_btn_string = button.text.toString()
+                button.setAlpha(.5f);
                 if (user_word.length < word_to_find_formatted.length) {
                     user_word += letter_btn_string+" "
                     // Toast.makeText(this@GameActivity, user_word_txt, Toast.LENGTH_SHORT).show()
@@ -121,6 +127,7 @@ class GameActivity : AppCompatActivity()  {
 
                     if(user_word == word_to_find_formatted) {
                         Toast.makeText(this@GameActivity, "Bravo, t'as trouvé !", Toast.LENGTH_SHORT).show()
+
                         foundWord(level)
 
 
@@ -139,7 +146,7 @@ class GameActivity : AppCompatActivity()  {
         }
     }
 
-
+    // générer une string de lettre aléatoire d'une longueur donnée
     fun generateRandomChars(length: Int): String {
         var candidateChars = "abcdefghijklmnopqrstuvwxyz"
         val sb = StringBuilder()
@@ -152,6 +159,7 @@ class GameActivity : AppCompatActivity()  {
         return sb.toString()
     }
 
+    // mélanger aléatoirement les lettres d'une string donnée
     fun shuffle(input: String): String {
         val characters = ArrayList<Char>()
         for (c in input.toCharArray()) {
