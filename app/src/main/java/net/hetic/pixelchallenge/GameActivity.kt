@@ -95,8 +95,9 @@ class GameActivity : AppCompatActivity()  {
         for (letter in word_to_find) {
             word_to_find_formatted += "$letter "
             underscores += "_ "
-            underscore_view.text = underscores
         }
+        underscore_view.text = underscores
+        Toast.makeText(this@GameActivity, underscores, Toast.LENGTH_SHORT).show()
 
         // pour chaque lettre, on créé le bouton
         // on créer le listener qui va gérer le click
