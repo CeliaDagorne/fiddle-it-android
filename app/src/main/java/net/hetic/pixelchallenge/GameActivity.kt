@@ -74,7 +74,8 @@ class GameActivity : AppCompatActivity()  {
             (buttonContainer).removeAllViews()
 
         // afficher l'image correspondant au niveau
-        var id = ctx.getResources().getIdentifier(word_to_find, "drawable", ctx.getApplicationInfo().packageName);
+        var suffix = "_min"
+        var id = ctx.getResources().getIdentifier("$word_to_find$suffix", "drawable", ctx.getApplicationInfo().packageName);
         img.setImageResource(id);
 
         // si la longueur du mot est inférieur au nombre de boutons à afficher,
@@ -97,7 +98,7 @@ class GameActivity : AppCompatActivity()  {
             underscores += "_ "
         }
         underscore_view.text = underscores
-        Toast.makeText(this@GameActivity, underscores, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this@GameActivity, underscores, Toast.LENGTH_SHORT).show()
 
         // pour chaque lettre, on créé le bouton
         // on créer le listener qui va gérer le click
@@ -127,18 +128,25 @@ class GameActivity : AppCompatActivity()  {
                     user_word_view.text = user_word
 
                     if(user_word == word_to_find_formatted) {
-                        Toast.makeText(this@GameActivity, "Bravo, t'as trouvé !", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@GameActivity, "Bravo, c'était bien \"$word_to_find\" !", Toast.LENGTH_SHORT).show()
+                        var id = ctx.getResources().getIdentifier(word_to_find, "drawable", ctx.getApplicationInfo().packageName);
+                        img.setImageResource(id);
 
-                        foundWord(level)
+                        android.os.Handler().postDelayed(
+                                { foundWord(level) },
+                                2000)
 
 
                     } else if (user_word.length == word_to_find_formatted.length) {
-                        Toast.makeText(this@GameActivity, "Nope, try again !", Toast.LENGTH_SHORT).show()
-                        toLevel(level)
+                        Toast.makeText(this@GameActivity, "Nope, essaye encore !", Toast.LENGTH_SHORT).show()
+
+                        android.os.Handler().postDelayed(
+                                { toLevel(level) },
+                                2000)
                     }
 
                 } else {
-                    Toast.makeText(this@GameActivity, "too long", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(this@GameActivity, "too long", Toast.LENGTH_SHORT).show()
                 }
             }
 
