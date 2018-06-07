@@ -1,5 +1,6 @@
 package net.hetic.pixelchallenge
 
+import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -23,19 +24,20 @@ import kotlin.math.log
 import android.widget.LinearLayout
 import android.R.id.edit
 import android.content.SharedPreferences
-
-
-
+import android.view.Window
 
 
 // TODO : IMPORTANT : faire le design du menu
-// TODO : ajouter toutes les images dans le dossier drawables
 // TODO : faire le petit écran "informations"
 
 
-class GameActivity : AppCompatActivity()  {
+class GameActivity : Activity()  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        // toolbar
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        setContentView(R.layout.activity_main)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
@@ -44,7 +46,6 @@ class GameActivity : AppCompatActivity()  {
         val pref = ctx.getSharedPreferences("Game", MODE_PRIVATE)
         val level = pref.getInt("currentLevel", 0)
         toLevel(level)
-
 
     }
 
@@ -56,7 +57,7 @@ class GameActivity : AppCompatActivity()  {
         toLevel(currentLevel + 1)
     }
 
-    // function to contain all level activity
+    // function to contain all level activities
     fun toLevel(newLevel: Int) {
         // get views
         val buttonContainer = findViewById(R.id.buttonContainer) as FlexboxLayout
