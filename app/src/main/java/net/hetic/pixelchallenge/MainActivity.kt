@@ -12,14 +12,18 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import android.support.v7.widget.Toolbar
 import android.view.Window
+import android.view.WindowManager
 
 class MainActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // toolbar
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        //Remove title bar
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //Remove notification bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main)
 
 

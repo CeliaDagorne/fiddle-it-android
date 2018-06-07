@@ -22,10 +22,10 @@
         app:layout_constraintBottom_toTopOf="@+id/nbTriesLbl"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
         app:srcCompat="@drawable/poisson_min" />
 
-    <Button
+    <!-- <Button
         android:id="@+id/levelNumber"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -42,7 +42,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        tools:text="1" />
+        tools:text="1" /> -->
+
+    <TextView
+        android:id="@+id/levelNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Level 1"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:fontFamily="@font/marselis_light"
+        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <TextView
         android:id="@+id/nbTriesLbl"
@@ -56,6 +73,7 @@
         android:text="@string/tries_home"
         android:textAllCaps="true"
         android:textColor="#CBCBCB"
+        android:fontFamily="@font/marselis_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
@@ -73,6 +91,7 @@
         android:text="0"
         android:textColor="#ffffff"
         android:textSize="20sp"
+        android:fontFamily="@font/marselis_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nbTriesLbl" />
@@ -124,8 +143,8 @@
         android:textColor="#ffffff"
         android:textSize="22sp"
         android:textAllCaps="true"
-        android:textStyle="bold"
         android:letterSpacing="0.1"
+        android:fontFamily="@font/marselis_bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/underscore"
         app:layout_constraintTop_toBottomOf="@+id/nbTries"

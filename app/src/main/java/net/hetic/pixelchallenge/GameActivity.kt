@@ -27,6 +27,7 @@ import android.widget.LinearLayout
 import android.R.id.edit
 import android.content.SharedPreferences
 import android.view.Window
+import android.view.WindowManager
 
 
 // TODO : IMPORTANT : faire le design du menu
@@ -36,12 +37,13 @@ import android.view.Window
 class GameActivity : Activity()  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        // toolbar
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.activity_main)
-
         super.onCreate(savedInstanceState)
+
+        //Remove title bar
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //Remove notification bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_game)
         // get current level from preferences, if there are no level, return 0 and launch level 0 (first one)
         val ctx = getApplicationContext()
@@ -91,7 +93,7 @@ class GameActivity : Activity()  {
         var underscores = ""
         user_word_view.text = user_word
         underscore_view.text = underscores
-        level_view.text = (newLevel+1).toString()
+        level_view.text = "Level "+(newLevel+1).toString()
         val nbTries = pref.getInt("nbTries", 0)
         nbTriesView.text = nbTries.toString()
         if ((buttonContainer).childCount > 0)
