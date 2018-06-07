@@ -84,13 +84,13 @@
         android:text="@string/tries_home"
         android:textAllCaps="true"
         android:textColor="#CBCBCB"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintBottom_toTopOf="@+id/nbTries"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/nbTries"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="27dp"
@@ -98,7 +98,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:text="125"
+        android:text="0"
         android:textColor="#ffffff"
         app:layout_constraintBottom_toTopOf="@+id/btn_open_game_activity"
         app:layout_constraintEnd_toEndOf="parent"

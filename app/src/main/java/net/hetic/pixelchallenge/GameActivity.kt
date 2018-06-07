@@ -21,11 +21,15 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import kotlin.math.log
 import android.widget.LinearLayout
+import android.R.id.edit
+import android.content.SharedPreferences
+
+
 
 
 
 // TODO : IMPORTANT : faire le design du menu
-// TODO : IMPORTANT stocker le level auquel l'utilisateur est rendu dans l'app
+// TODO : ajouter toutes les images dans le dossier drawables
 // TODO : faire le petit écran "informations"
 
 
@@ -35,52 +39,67 @@ class GameActivity : AppCompatActivity()  {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
+        // get current level from preferences, if there are no level, return 0 and launch level 0 (first one)
+        val ctx = getApplicationContext()
+        val pref = ctx.getSharedPreferences("Game", MODE_PRIVATE)
+        val level = pref.getInt("currentLevel", 0)
+        toLevel(level)
 
-        toLevel(0)
 
     }
 
+    // function to execute when user finds the right word,
+    // sends to next level
     fun foundWord(currentLevel: Int){
         //user_word = ""
         //user_word_view.text = user_word
         toLevel(currentLevel + 1)
     }
 
+    // function to contain all level activity
     fun toLevel(newLevel: Int) {
-        val ctx = applicationContext
+        // get views
         val buttonContainer = findViewById(R.id.buttonContainer) as FlexboxLayout
         val img = findViewById(R.id.imageView2) as ImageView
         val level_view = findViewById(R.id.levelNumber) as TextView
         val user_word_view = findViewById(R.id.textView) as TextView
         val underscore_view = findViewById(R.id.underscore) as TextView
+        val nbTriesView = findViewById(R.id.nbTries) as TextView
 
-        // get words.xml array
-        val wordArray = resources.getStringArray(R.array.words)
+        // put the current level in the preferences, to store it for app restart
         var level = newLevel
+        val ctx = applicationContext
+        val pref = ctx.getSharedPreferences("Game", MODE_PRIVATE)
+        val editor = pref.edit()
+        editor.putInt("currentLevel", level)
+        editor.commit()
 
+        // set the number of buttons to show,
+        // get the right word for the level
         val nb_letters_to_show = 12
+        val wordArray = resources.getStringArray(R.array.words)
         var word_to_find = wordArray[level]
         var word_to_find_formatted = ""
         //var word_to_find_length = word_to_find.length
         var letters_to_show = word_to_find
 
-        // on vide les inputs, boutons, et underscores
+        // reset input, buttons, underscores
         var user_word = ""
         var underscores = ""
         user_word_view.text = user_word
         underscore_view.text = underscores
         level_view.text = (newLevel+1).toString()
+        val nbTries = pref.getInt("nbTries", 0)
+        nbTriesView.text = nbTries.toString()
         if ((buttonContainer).childCount > 0)
             (buttonContainer).removeAllViews()
 
-        // afficher l'image correspondant au niveau
+        // show level image
         var suffix = "_min"
         var id = ctx.getResources().getIdentifier("$word_to_find$suffix", "drawable", ctx.getApplicationInfo().packageName);
         img.setImageResource(id);
 
-        // si la longueur du mot est inférieur au nombre de boutons à afficher,
-        // on ajoute autant de lettres aléatoires qu'il faut pour avoir le nombre de lettres à
-        // afficher
+        // show enough random letters to fill the number of buttons needed
         if (word_to_find.length < nb_letters_to_show) {
             var nb_letters_to_add = nb_letters_to_show - word_to_find.length
             var letters = generateRandomChars(nb_letters_to_add)
@@ -88,29 +107,26 @@ class GameActivity : AppCompatActivity()  {
                 letters_to_show = "$letters_to_show$letter"
             }
         }
-        // on mélange les lettres
+        // shuffle the letters
         letters_to_show = shuffle(letters_to_show)
 
 
-        // on ajoute le nombre d'underscore du mot à trouver dans la vue
-        var space = " "
+        // add the underscore to show the number of letters
         for (letter in word_to_find) {
             word_to_find_formatted += "$letter "
             underscores += "_ "
         }
         underscore_view.text = underscores
-        //Toast.makeText(this@GameActivity, underscores, Toast.LENGTH_SHORT).show()
 
-        // pour chaque lettre, on créé le bouton
-        // on créer le listener qui va gérer le click
-        // puis on l'ajoute dans la vue
+        // for each letter, create the button and add it to view, add event listener to handle click
         for (letter in letters_to_show) {
+
+            // create button and add style
             val button = Button(this)
             val scale = resources.displayMetrics.density
             val dpWidthInPx = (40 * scale).toInt()
             val dpHeightInPx = (40 * scale).toInt()
             val dpMarginInPx = (8 * scale).toInt()
-
             button.text = "$letter"
             button.setBackgroundResource(R.drawable.cta_bg)
             button.setTextColor(Color.WHITE)
@@ -120,44 +136,69 @@ class GameActivity : AppCompatActivity()  {
             param.setMargins(dpMarginInPx,dpMarginInPx,dpMarginInPx,dpMarginInPx);
             button.layoutParams = param
 
+            // handle click event
             button.setOnClickListener {
+                // get the letter of clicked button
                 val letter_btn_string = button.text.toString()
+                // disable the button
                 button.setAlpha(.5f)
                 button.setEnabled(false)
+                // if the word the user typed in smaller to the word to find, add letter to user input
                 if (user_word.length < word_to_find_formatted.length) {
+                    // add letter to user input
                     user_word += letter_btn_string+" "
-                    // Toast.makeText(this@GameActivity, user_word_txt, Toast.LENGTH_SHORT).show()
                     user_word_view.text = user_word
 
+                    // if the user has found the word
                     if(user_word == word_to_find_formatted) {
+                        // show "BRAVO" and reveal full image
                         Toast.makeText(this@GameActivity, "Bravo, c'était bien \"$word_to_find\" !", Toast.LENGTH_SHORT).show()
                         var id = ctx.getResources().getIdentifier(word_to_find, "drawable", ctx.getApplicationInfo().packageName);
                         img.setImageResource(id);
 
+                        // add one try to local storage
+                        val ctx = applicationContext
+                        val pref = ctx.getSharedPreferences("Game", MODE_PRIVATE)
+                        val editor = pref.edit()
+                        val nbTries = pref.getInt("nbTries", 0)
+                        editor.putInt("nbTries", nbTries+1)
+                        editor.commit()
+
+                        // launch foundWord function after 1s
                         android.os.Handler().postDelayed(
                                 { foundWord(level) },
-                                2000)
+                                1000)
 
 
                     } else if (user_word.length == word_to_find_formatted.length) {
+                        // if the word is the right length but not the word to find, the user loose
                         Toast.makeText(this@GameActivity, "Nope, essaye encore !", Toast.LENGTH_SHORT).show()
 
+                        // add 1 try
+                        val ctx = applicationContext
+                        val pref = ctx.getSharedPreferences("Game", MODE_PRIVATE)
+                        val editor = pref.edit()
+                        val nbTries = pref.getInt("nbTries", 0)
+                        editor.putInt("nbTries", nbTries+1)
+                        editor.commit()
+
+                        // relaunch same level after 1s
                         android.os.Handler().postDelayed(
                                 { toLevel(level) },
-                                2000)
+                                1000)
                     }
 
                 } else {
-                    //Toast.makeText(this@GameActivity, "too long", Toast.LENGTH_SHORT).show()
+                    // if the number of letters to find is already filled and wrong, do nothing
                 }
             }
-
+            // add button to view
             buttonContainer.addView(button)
 
         }
     }
 
-    // générer une string de lettre aléatoire d'une longueur donnée
+    // generate random string of given length
     fun generateRandomChars(length: Int): String {
         var candidateChars = "abcdefghijklmnopqrstuvwxyz"
         val sb = StringBuilder()
@@ -170,7 +211,7 @@ class GameActivity : AppCompatActivity()  {
         return sb.toString()
     }
 
-    // mélanger aléatoirement les lettres d'une string donnée
+    // shuffle given string
     fun shuffle(input: String): String {
         val characters = ArrayList<Char>()
         for (c in input.toCharArray()) {
