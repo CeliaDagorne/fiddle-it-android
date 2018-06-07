@@ -11,8 +11,8 @@
 
     <Button
         android:id="@+id/btn_open_game_activity"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
@@ -22,7 +22,9 @@
         android:background="@drawable/cta_bg"
         android:text="Play"
         android:textColor="#ffffff"
+        android:textAllCaps="false"
         android:textStyle="bold"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

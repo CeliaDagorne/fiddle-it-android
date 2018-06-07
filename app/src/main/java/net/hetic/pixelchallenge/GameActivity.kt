@@ -9,6 +9,8 @@ import android.widget.ImageView
 import android.view.View
 import android.widget.Toast
 import android.graphics.Color
+import android.graphics.Typeface
+import android.util.TypedValue
 import android.R.attr.button
 import android.support.design.widget.TabLayout.GRAVITY_CENTER
 import java.util.Random
@@ -131,6 +133,8 @@ class GameActivity : Activity()  {
             button.text = "$letter"
             button.setBackgroundResource(R.drawable.cta_bg)
             button.setTextColor(Color.WHITE)
+            button.setTypeface(button.getTypeface(), Typeface.BOLD)
+            button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16.0f)
             button.setGravity(GRAVITY_CENTER)
             button.layoutParams = FlexboxLayout.LayoutParams(dpWidthInPx, dpHeightInPx)
             val param = button.layoutParams as FlexboxLayout.LayoutParams
@@ -142,7 +146,7 @@ class GameActivity : Activity()  {
                 // get the letter of clicked button
                 val letter_btn_string = button.text.toString()
                 // disable the button
-                button.setAlpha(.5f)
+                button.setAlpha(0f)
                 button.setEnabled(false)
                 // if the word the user typed in smaller to the word to find, add letter to user input
                 if (user_word.length < word_to_find_formatted.length) {
