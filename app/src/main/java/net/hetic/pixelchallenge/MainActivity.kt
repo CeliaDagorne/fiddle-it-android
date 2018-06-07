@@ -5,14 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
-import android.widget.Button
-import android.widget.TextView
-import android.widget.ImageView
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import android.support.v7.widget.Toolbar
 import android.view.Window
+import android.view.Gravity
 import android.view.WindowManager
+import android.widget.*
+import android.support.constraint.ConstraintLayout
 
 class MainActivity : Activity() {
 
@@ -64,6 +63,23 @@ class MainActivity : Activity() {
         btnOpenGameActivity.setOnClickListener {
             val intent = Intent(this, GameActivity :: class.java)
             startActivity(intent)
+        }
+
+        val infoBtn : Button = findViewById(R.id.infoButton)
+        val pageLayout : ConstraintLayout = findViewById(R.id.container)
+        infoBtn.setOnClickListener {
+            val window = PopupWindow(this)
+            val view = layoutInflater.inflate(R.layout.popup, null)
+            window.contentView = view
+
+
+            val closeBtn = view.findViewById<ImageButton>(R.id.closeBtn)
+            closeBtn.setOnClickListener {
+                window.dismiss()
+                pageLayout.setAlpha(1f)
+            }
+            window.showAtLocation(pageLayout, Gravity.CENTER,0,0);
+            pageLayout.setAlpha(0.7f)
         }
     }
 }

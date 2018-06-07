@@ -3,11 +3,7 @@ package net.hetic.pixelchallenge
 import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
-import android.widget.ImageView
 import android.view.View
-import android.widget.Toast
 import android.graphics.Color
 import android.graphics.Typeface
 import android.util.TypedValue
@@ -20,14 +16,14 @@ import java.util.Arrays.asList
 import com.google.android.flexbox.FlexboxLayout
 import android.util.Log
 
-import android.widget.ArrayAdapter
-import android.widget.ListView
 import kotlin.math.log
-import android.widget.LinearLayout
 import android.R.id.edit
 import android.content.SharedPreferences
+import android.support.constraint.ConstraintLayout
+import android.view.Gravity
 import android.view.Window
 import android.view.WindowManager
+import android.widget.*
 
 
 // TODO : IMPORTANT : faire le design du menu
@@ -50,6 +46,25 @@ class GameActivity : Activity()  {
         val pref = ctx.getSharedPreferences("Game", MODE_PRIVATE)
         val level = pref.getInt("currentLevel", 0)
         toLevel(level)
+
+
+        // create popup
+        val infoBtn : Button = findViewById(R.id.infoButton)
+        val pageLayout : ConstraintLayout = findViewById(R.id.container)
+        infoBtn.setOnClickListener {
+            val window = PopupWindow(this)
+            val view = layoutInflater.inflate(R.layout.popup, null)
+            window.contentView = view
+
+
+            val closeBtn = view.findViewById<ImageButton>(R.id.closeBtn)
+            closeBtn.setOnClickListener {
+                window.dismiss()
+                pageLayout.setAlpha(1f)
+            }
+            window.showAtLocation(pageLayout, Gravity.CENTER,0,0);
+            pageLayout.setAlpha(0.7f)
+        }
 
     }
 
@@ -203,6 +218,7 @@ class GameActivity : Activity()  {
             buttonContainer.addView(button)
 
         }
+
     }
 
     // generate random string of given length
